@@ -1,0 +1,6 @@
+The layout and flow of the game UI will be as follows:
+=============================================================
+Start Page -> Game Page -> Continue or leave game Page -> Results Page
+
+The files that will be used (in order) are:
+StartPage.jsx -> GamePage.jsx -> DecisionPage.jsx -> ResultsPage.jsx
