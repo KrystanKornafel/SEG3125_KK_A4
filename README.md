@@ -1,4 +1,4 @@
-Description: This code was written by Krystan Kornafel for Assignment 3. The purpose of this assignment was to design and implement a website UI for a memory game webiste. The game is called "NumImajez", and the description of the game is presented below.
+Description: This code was written by Krystan Kornafel for Assignment 4. The purpose of this assignment was to design and implement a website UI for a memory game webiste. The description of the UI is presented below.
 
 Flow of the UI:
 1. Select items and add to cart
