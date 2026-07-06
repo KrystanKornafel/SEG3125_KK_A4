@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 //import { useParams } from 'react-router'; //I think this is for inputs from user
 //import { Routes, Route, Link } from "react-router-dom";
 import './App.css'
@@ -6,7 +7,13 @@ import './App.css'
 import Hairdresser, { Home as HairdresserHome, About, ServicesPage, ApplyNow, FinalPgApply, BookAppointment, FinalPgAppointment, ContactUs } from '../public/Hairdresser'
 //import Hairdresser, { Home as HairdresserHome, About as HairdresserAbout, ApplyNow as HairdresserApplyNow, BookAppointment as HairdresserBookAppointment, ContactUs as HairdresserContactUs } from '../public/Hairdresser';
 import MemoryGame, {GameHome, GameStartPage, DecisionPage, ResultsPage} from '../public/MemoryGame';
-
+import ECommerceStore, {ECommerceHome, PaymentPage, ContactInfoPage, MerchPage, TransactionCompletePage} from '../public/ECommerceStore';
+import Shirts from '../public/eCommerce/Shirt';
+import Pants from '../public/eCommerce/Pants';
+import Skirts from '../public/eCommerce/Skirts';
+import CartPg from '../public/eCommerce/CartPg';
+import OnSale from '../public/eCommerce/OnSale';
+import Survey from '../public/eCommerce/Survey';
 
 //======================== Main UI -> Portfolio Page ===================================================
 // Name: Krystan Kornafel
@@ -97,9 +104,9 @@ function Analytics() {
     return <div className="container mt-4"><h1>Analytics</h1></div>;
  }
 
-function ECommerceStore() { 
-  return <div className="container mt-4"><h1>E-Commerce Store</h1></div>;
- }
+// function ECommerceStore() { 
+//   return <div className="container mt-4"><h1>E-Commerce Store</h1></div>;
+//  }
 
 // function MemoryGame() { 
 //    return <div className="container mt-4"><h1>Memory Game</h1></div>;
@@ -122,7 +129,7 @@ function Navbar() {
             {/* <Link className="nav-link text-white" to="/about">About</Link> */}
             <li className="nav-item me-3"><Link className="nav-link" to="/hairdresser">Hairdresser</Link></li>
             <li className="nav-item me-3"><Link className="nav-link" to="/analytics">Analytics</Link></li>
-            <li className="nav-item me-3"><Link className="nav-link" to="/e-commerce">E-Commerce</Link></li>
+            <li className="nav-item me-3"><Link className="nav-link" to="/eCommerceStore">E-Commerce</Link></li>
             <li className="nav-item"><Link className="nav-link" to="/memory-game">Memory Game</Link></li>
           {/* </div> */}
         {/* </div> */}
@@ -134,7 +141,23 @@ function Navbar() {
 
 
 function App() {
-  //const [count, setCount] = useState(0)
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('ecommerceCart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('ecommerceCart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const addToCart = (item) => {
+    setCartItems((prevItems) => [...prevItems, item]);
+  };
+
+  const removeFromCart = (itemId) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  };
+
   return (
       <BrowserRouter>
         <Navbar />
@@ -159,9 +182,7 @@ function App() {
 
 
             {/* The remainder of the card links are referenced here */}
-            <Route path="/analytics" element={<Analytics />} />     
-            <Route path="/e-commerce" element={<ECommerceStore />} />   
-
+            <Route path="/analytics" element={<Analytics />} />
 
                 {/* Below is all the routing for the memory game */}
             <Route path="/memory-game" element={<MemoryGame />} >
@@ -172,7 +193,31 @@ function App() {
                 <Route path="results" element={<ResultsPage/>} />
             </Route> 
 
-          </Routes>
+            {/* Below is all the routing for the e-commerce store */}
+            <Route path="/e-commerce" element={<ECommerceStore />}>
+                <Route index element={<ECommerceHome />} />
+                <Route path="payment" element={<PaymentPage />} />
+                <Route path="paymentPg" element={<PaymentPage />} />
+                <Route path="contactInfo" element={<ContactInfoPage />} />
+                <Route path="merchPage" element={<MerchPage />} />
+                <Route path="transactionComplete" element={<TransactionCompletePage />} />
+            </Route>
+            <Route path="/eCommerceStore" element={<ECommerceStore />}>
+                <Route index element={<ECommerceHome />} />
+                <Route path="payment" element={<PaymentPage />} />
+                <Route path="contactInfo" element={<ContactInfoPage />} />
+                <Route path="merchPage" element={<MerchPage />} />
+                <Route path="transactionComplete" element={<TransactionCompletePage />} />
+                {/* Sub-routes for different products */}
+                <Route path="onSale" element={<OnSale addToCart={addToCart} cartItems={cartItems} />} />
+                <Route path="shirts" element={<Shirts addToCart={addToCart} cartItems={cartItems} />} />
+                <Route path="pants" element={<Pants addToCart={addToCart} cartItems={cartItems} />} />
+                <Route path="skirts" element={<Skirts addToCart={addToCart} cartItems={cartItems} />} />
+                {/* Pass the items to the cart and ensure they can be deleted later if needed */}
+                <Route path="cartPg" element={<CartPg cartItems={cartItems} removeFromCart={removeFromCart} />} />
+                <Route path="survey" element={<Survey/>} />
+            </Route>
+          </Routes> 
     </BrowserRouter>
   );
 }
