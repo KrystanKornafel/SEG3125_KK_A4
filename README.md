@@ -8,7 +8,7 @@ Flow of the UI:
 5. Optional: Enter survey
 6. Return to main page
 
-GenAI Acknowledgement: Some of my images were created by Copilot and Gemini. My timer was created by ChatGPT for the purpose of setting and displaying time. If I reference GenAI for a line of code, I made sure to add a comment to give proper acknowledgment of the resource.
+GenAI Acknowledgement: Images were created by Gemini, and Copilot assisted me in fixing my routing issues for the pages.
 
 My work can be found in the following folders:
 1. /public -> This is where all the card UIs are stored, such as Hairdresser, MemoryGame, EccommerceStore, and Analytics
